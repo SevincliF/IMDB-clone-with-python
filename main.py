@@ -1,5 +1,4 @@
 import os
-from datetime import datetime
 from database import init_db, get_db
 from sample_movies import SAMPLE_MOVIES
 from utils import (

@@ -1,5 +1,4 @@
 import sqlite3
-import os
 
 def get_db():
     db = sqlite3.connect('film_degerlendirme.db')
