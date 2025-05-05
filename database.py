@@ -6,6 +6,7 @@ def get_db():
     return db
 
 def init_db():
+    """Veritabanını ve tabloları oluşturur."""
     db = get_db()
     cursor = db.cursor()
     
@@ -19,7 +20,7 @@ def init_db():
             first_name TEXT NOT NULL,
             last_name TEXT NOT NULL,
             birth_date TEXT NOT NULL,
-            created_at TEXT DEFAULT CURRENT_TIMESTAMP
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     ''')
     
@@ -30,7 +31,7 @@ def init_db():
             series_title TEXT NOT NULL,
             released_year INTEGER NOT NULL,
             certificate TEXT,
-            runtime INTEGER,
+            runtime TEXT,
             genre TEXT,
             imdb_rating REAL,
             overview TEXT,
@@ -53,9 +54,23 @@ def init_db():
             movie_id INTEGER NOT NULL,
             rating INTEGER NOT NULL,
             comment TEXT,
-            created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP,
             FOREIGN KEY (user_id) REFERENCES users (id),
             FOREIGN KEY (movie_id) REFERENCES movies (id)
+        )
+    ''')
+    
+    # Kullanıcı film listesi tablosu
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS user_movie_list (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            movie_id INTEGER NOT NULL,
+            added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users (id),
+            FOREIGN KEY (movie_id) REFERENCES movies (id),
+            UNIQUE(user_id, movie_id)
         )
     ''')
     
